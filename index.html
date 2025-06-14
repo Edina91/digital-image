@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelEdu - Edukativni alat za razumijevanje digitalnih slika</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">PixelEdu</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#uvod">Uvod</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#siva-slika">Siva slika</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#rgb-simulator">RGB simulator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#zoom">Zoom i analiza</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#kvantizacija">Kvantizacija</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container my-4">
+        <!-- Uvodni modul -->
+        <section id="uvod" class="mb-5">
+            <h2>Uvod u digitalne slike</h2>
+            
+            <!-- Prvi red: Matematički model -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 class="card-title">Matematički model digitalne slike</h5>
+                                    <p class="card-text">Digitalna slika je predstavljena kao matrica piksela f(x,y), gdje:</p>
+                                    <ul>
+                                        <li>x, y su koordinate piksela (x ∈ [0, width-1], y ∈ [0, height-1])</li>
+                                        <li>f(x,y) je intenzitet piksela (0-255 za sivu sliku)</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="alert alert-info h-100 mb-0">
+                                        <strong>Primjer:</strong><br>
+                                        Za sliku 8×8 piksela, matrica je 8×8, gdje svaki element predstavlja intenzitet od 0 (crno) do 255 (bijelo). Početno su svi pikseli postavljeni na 255 (bijelo).
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Drugi red: Interaktivna matrica i vizualizacija -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Podešavanje matrice</h5>
+                            
+                            <!-- Veličina matrice -->
+                            <div class="mb-4">
+                                <label for="matrix-size" class="form-label">Veličina matrice:</label>
+                                <select class="form-select" id="matrix-size">
+                                    <option value="4">4×4</option>
+                                    <option value="8" selected>8×8</option>
+                                    <option value="16">16×16</option>
+                                </select>
+                            </div>
+
+                            <!-- Postavljanje vrijednosti -->
+                            <div class="mb-4">
+                                <label for="pixel-value-input" class="form-label">Vrijednost piksela:</label>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div id="selected-color" class="border rounded" style="width: 50px; height: 50px; cursor: pointer;"></div>
+                                    <input type="number" class="form-control" id="pixel-value-input" min="0" max="255" value="128" style="width: 100px;">
+                                    <button class="btn btn-outline-primary" id="apply-all">
+                                        <i class="bi bi-check-all"></i> Primijeni na sve
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Transformacije matrice -->
+                            <h5 class="card-title">Transformacije matrice</h5>
+                            <div class="accordion" id="matrixTransformAccordion">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingBrightness">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBrightness" aria-expanded="false" aria-controls="collapseBrightness">
+                                            Svjetlina
+                                        </button>
+                                    </h2>
+                                    <div id="collapseBrightness" class="accordion-collapse collapse" aria-labelledby="headingBrightness" data-bs-parent="#matrixTransformAccordion">
+                                        <div class="accordion-body">
+                                            <p class="card-text small">
+                                                Svjetlina se mijenja dodavanjem konstantne vrijednosti svakom pikselu. 
+                                                <br><br>
+                                                <strong>Formula:</strong><br>
+                                                <div class="math-formula">
+                                                    f<sub>new</sub>(x,y) = f(x,y) + c
+                                                </div>
+                                                <br>
+                                                gdje je:
+                                                <ul>
+                                                    <li>f(x,y) - originalna vrijednost piksela</li>
+                                                    <li>c - konstanta svjetline (vrijednost koju unosite)</li>
+                                                    <li>f<sub>new</sub>(x,y) - nova vrijednost piksela</li>
+                                                </ul>
+                                                <div class="alert alert-info">
+                                                    <i class="bi bi-info-circle"></i> 
+                                                    Pozitivne vrijednosti konstante c povećavaju svjetlinu, 
+                                                    negativne je smanjuju. Sve vrijednosti se automatski ograničavaju na raspon 0-255.
+                                                </div>
+                                            </p>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="matrix-constant-brightness" value="50" min="-255" max="255" step="1">
+                                                <button class="btn btn-outline-primary" id="brightness-matrix">
+                                                    <i class="bi bi-sun"></i> Primijeni svjetlinu
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingContrast">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContrast" aria-expanded="false" aria-controls="collapseContrast">
+                                            Kontrast
+                                        </button>
+                                    </h2>
+                                    <div id="collapseContrast" class="accordion-collapse collapse" aria-labelledby="headingContrast" data-bs-parent="#matrixTransformAccordion">
+                                        <div class="accordion-body">
+                                            <p class="card-text small">
+                                                Kontrast se mijenja množenjem razlike između vrijednosti piksela i srednje vrijednosti (128) sa faktorom.
+                                                <br><br>
+                                                <strong>Formula:</strong><br>
+                                                <div class="math-formula">
+                                                    f<sub>new</sub>(x,y) = α(f(x,y) - 128) + 128
+                                                </div>
+                                                <br>
+                                                gdje je:
+                                                <ul>
+                                                    <li>f(x,y) - originalna vrijednost piksela</li>
+                                                    <li>α - faktor kontrasta (vrijednost koju unosite)</li>
+                                                    <li>f<sub>new</sub>(x,y) - nova vrijednost piksela</li>
+                                                </ul>
+                                                <div class="alert alert-info">
+                                                    <i class="bi bi-info-circle"></i> 
+                                                    Vrijednosti faktora α veće od 1 povećavaju kontrast, 
+                                                    manje od 1 smanjuju ga. Sve vrijednosti se automatski ograničavaju na raspon 0-255.
+                                                </div>
+                                            </p>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="matrix-constant-contrast" value="1.5" min="0.1" max="5" step="0.1">
+                                                <button class="btn btn-outline-primary" id="contrast-matrix">
+                                                    <i class="bi bi-circle-half"></i> Primijeni kontrast
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingInversion">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInversion" aria-expanded="false" aria-controls="collapseInversion">
+                                            Inverzija
+                                        </button>
+                                    </h2>
+                                    <div id="collapseInversion" class="accordion-collapse collapse" aria-labelledby="headingInversion" data-bs-parent="#matrixTransformAccordion">
+                                        <div class="accordion-body">
+                                            <p class="card-text small">
+                                                Inverzija mijenja svaku vrijednost piksela u njenu suprotnu vrijednost.
+                                                <br><br>
+                                                <strong>Formula:</strong><br>
+                                                <div class="math-formula">
+                                                    f<sub>new</sub>(x,y) = 255 - f(x,y)
+                                                </div>
+                                                <br>
+                                                gdje je:
+                                                <ul>
+                                                    <li>f(x,y) - originalna vrijednost piksela</li>
+                                                    <li>f<sub>new</sub>(x,y) - nova (invertovana) vrijednost piksela</li>
+                                                </ul>
+                                                <div class="alert alert-info">
+                                                    <i class="bi bi-info-circle"></i> 
+                                                    Inverzija mijenja svaku vrijednost u njenu suprotnu vrijednost:
+                                                    <ul>
+                                                        <li>0 postaje 255</li>
+                                                        <li>128 postaje 127</li>
+                                                        <li>255 postaje 0</li>
+                                                    </ul>
+                                                </div>
+                                            </p>
+                                            <div class="input-group">
+                                                <button class="btn btn-outline-primary" id="inversion-matrix">
+                                                    <i class="bi bi-arrow-repeat"></i> Primijeni inverziju
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="card-title mb-0">Vizualizacija matrice</h5>
+                            </div>
+                            <div class="d-flex gap-2 mb-3">
+                                <button class="btn btn-sm btn-outline-primary" id="reset-matrix">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Resetuj
+                                </button>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="patternDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-grid-3x3"></i> Uzorci
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="patternDropdown">
+                                        <li><a class="dropdown-item" href="#" data-pattern="random">Nasumično</a></li>
+                                        <li><a class="dropdown-item" href="#" data-pattern="gradient">Gradijent</a></li>
+                                        <li><a class="dropdown-item" href="#" data-pattern="checkerboard">Šahovska tabla</a></li>
+                                        <li><a class="dropdown-item" href="#" data-pattern="diagonal">Dijagonalni gradijent</a></li>
+                                        <li><a class="dropdown-item" href="#" data-pattern="circle">Krug</a></li>
+                                        <li><a class="dropdown-item" href="#" data-pattern="heart">Srce</a></li>
+                                        <li><a class="dropdown-item" href="#" data-pattern="arrow">Strelica</a></li>
+                                        <li><a class="dropdown-item" href="#" data-pattern="plus">Plus</a></li>
+                                        <li><a class="dropdown-item" href="#" data-pattern="frame">Okvir</a></li>
+                                    </ul>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary" id="copy-matrix">
+                                    <i class="bi bi-clipboard"></i> Kopiraj matricu
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary" id="toggle-values">
+                                    <i class="bi bi-eye-slash"></i> Sakrij vrijednosti
+                                </button>
+                            </div>
+                            <div id="pixel-matrix" class="border p-3 mb-3">
+                                <!-- Ovdje će biti vizualizacija matrice piksela -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Siva slika modul -->
+        <section id="siva-slika" class="mb-5">
+            <h2>Simulator sive slike</h2>
+            <div class="row">
+                <div class="col-md-8">
+                    <div id="grayscale-canvas" class="border p-3">
+                        <!-- Ovdje će biti canvas za prikaz sive slike -->
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Kontrole</h5>
+                            <div class="mb-3">
+                                <label for="brightness" class="form-label">Svjetlina</label>
+                                <input type="range" class="form-range" id="brightness" min="0" max="255" value="128">
+                            </div>
+                            <div class="mb-3">
+                                <label for="contrast" class="form-label">Kontrast</label>
+                                <input type="range" class="form-range" id="contrast" min="-128" max="128" value="0">
+                            </div>
+                            <button class="btn btn-primary" id="invert-btn">Invertuj boje</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RGB Simulator modul -->
+        <section id="rgb-simulator" class="mb-5">
+            <h2>RGB Simulator</h2>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Crveni kanal (R)</h5>
+                                    <canvas id="red-channel" class="w-100 mb-2"></canvas>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="red-toggle" checked>
+                                        <label class="form-check-label" for="red-toggle">Prikaži kanal</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Zeleni kanal (G)</h5>
+                                    <canvas id="green-channel" class="w-100 mb-2"></canvas>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="green-toggle" checked>
+                                        <label class="form-check-label" for="green-toggle">Prikaži kanal</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Plavi kanal (B)</h5>
+                                    <canvas id="blue-channel" class="w-100 mb-2"></canvas>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="blue-toggle" checked>
+                                        <label class="form-check-label" for="blue-toggle">Prikaži kanal</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Kombinovana slika</h5>
+                            <canvas id="rgb-combined" class="w-100"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Kontrole</h5>
+                            <div class="mb-3">
+                                <label for="red-intensity" class="form-label">Intenzitet crvene</label>
+                                <input type="range" class="form-range" id="red-intensity" min="0" max="255" value="255">
+                            </div>
+                            <div class="mb-3">
+                                <label for="green-intensity" class="form-label">Intenzitet zelene</label>
+                                <input type="range" class="form-range" id="green-intensity" min="0" max="255" value="255">
+                            </div>
+                            <div class="mb-3">
+                                <label for="blue-intensity" class="form-label">Intenzitet plave</label>
+                                <input type="range" class="form-range" id="blue-intensity" min="0" max="255" value="255">
+                            </div>
+                            <button class="btn btn-primary" id="reset-rgb">Resetuj vrijednosti</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">PixelEdu &copy; 2024 - Edukativni alat za razumijevanje digitalnih slika</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+</body>
+</html> 
