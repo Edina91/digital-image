@@ -41,8 +41,6 @@ git clone https://github.com/VAS_USERNAME/digital-image.git
 
 2. Otvorite `index.html` u web pretraživaču
 
-Ili jednostavno posjetite [live demo](https://VAS_USERNAME.github.io/digital-image)
-
 ## Korištenje
 
 1. **Podešavanje matrice**
@@ -73,12 +71,8 @@ Ovaj projekat je licenciran pod [Creative Commons Attribution 4.0 International 
 
 ## Autor
 
-- **Ime**: [Vaše ime]
-- **Email**: [vaš email]
-- **GitHub**: [vaš GitHub profil]
+- **Ime**: Edina Kadrić Durmiš
+- **Email**: kadric.edina@gmail.com
+- **GitHub**: https://github.com/Edina91
 
-## Kontakt
-
-Vaše Ime - [@vas_twitter](https://twitter.com/vas_twitter) - email@example.com
-
-Link projekta: [https://github.com/VAS_USERNAME/digital-image](https://github.com/VAS_USERNAME/digital-image) 
+Link projekta: [https://github.com/Edina91/digital-image](https://github.com/Edina91/digital-image) 
