@@ -36,7 +36,7 @@ PixelEdu je interaktivni web alat za učenje o digitalnim slikama, pikselima i o
 
 1. Klonirajte repozitorijum:
 ```bash
-git clone https://github.com/VAS_USERNAME/digital-image.git
+git clone https://github.com/Edina91/digital-image.git
 ```
 
 2. Otvorite `index.html` u web pretraživaču
